@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class ContactCellViewModel {
+class ContactCellViewModel: Hashable {
     // MARK: - Properties
     let contact: Contact
     
@@ -27,5 +27,14 @@ class ContactCellViewModel {
     // MARK: - Init
     init(contact: Contact) {
         self.contact = contact
+    }
+    
+    // MARK: - Hashable
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(contact)
+    }
+    
+    static func == (lhs: ContactCellViewModel, rhs: ContactCellViewModel) -> Bool {
+        return lhs.contact == rhs.contact
     }
 }

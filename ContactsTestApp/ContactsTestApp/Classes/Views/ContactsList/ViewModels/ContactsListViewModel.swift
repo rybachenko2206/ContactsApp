@@ -8,23 +8,27 @@
 import Foundation
 import Combine
 import CoreData
+import UIKit
 
 typealias Completion = () -> Void
 typealias BoolCompletion = (Bool) -> Void
 typealias ErrorCompletion = (AppError) -> Void
+typealias SnapshotCompletion = (NSDiffableDataSourceSnapshot<ContactsSection, ContactCellViewModel>) -> Void
+
+enum ContactsSection: Int, CaseIterable {
+    case first
+}
 
 protocol PContactsListViewModel/*: DataLoadable*/ {
 //    var reloadPublisher: AnyPublisher<Void, Never> { get }
 //    var isLoadingPublisher: AnyPublisher<Bool, Never> { get }
 //    var errorPublisher: AnyPublisher<AppError, Never> { get }
-    var reloadTable: Completion? { get set }
+//    var reloadTable: Completion? { get set }
     var isLoading: BoolCompletion? { get set }
     var errorCompletion: ErrorCompletion? { get set }
+    var snapshotCompletion: SnapshotCompletion? { get set }
     
     func start()
-    func numberOfSections() -> Int
-    func numberOfRows(in section: Int) -> Int
-    func contactItem(for indexPath: IndexPath) -> ContactCellViewModel?
 }
 
 class ContactsListViewModel: PContactsListViewModel {
@@ -56,9 +60,10 @@ class ContactsListViewModel: PContactsListViewModel {
 //            .eraseToAnyPublisher()
 //    }
     
-    var reloadTable: Completion?
     var isLoading: BoolCompletion?
     var errorCompletion: ErrorCompletion?
+//    var reloadTable: Completion?
+    var snapshotCompletion: SnapshotCompletion?
     
     // MARK: - Init
     init(coreDataStack: CoreDataStack, networkService: PNetworkService) {
@@ -88,18 +93,6 @@ class ContactsListViewModel: PContactsListViewModel {
         })
     }
     
-    func numberOfSections() -> Int {
-        return 1
-    }
-    
-    func numberOfRows(in section: Int) -> Int {
-        return contactsViewModels.count
-    }
-    
-    func contactItem(for indexPath: IndexPath) -> ContactCellViewModel? {
-        return contactsViewModels[safe: indexPath.row]
-    }
-    
     // MARK: - Notification Observers
     @objc private func contextDidChange(_ notification: Notification) {
         fetchLocalContacts(completion: { [weak self] results in
@@ -110,9 +103,14 @@ class ContactsListViewModel: PContactsListViewModel {
     // MARK: - Private funcs
     private func handleSuccess(with results: [Contact]) {
         contactsViewModels = results.compactMap({ ContactCellViewModel(contact: $0) })
+        
+        var snapshot = NSDiffableDataSourceSnapshot<ContactsSection, ContactCellViewModel>()
+        snapshot.appendSections([.first])
+        snapshot.appendItems(contactsViewModels)
+        
         DispatchQueue.main.async {
             self.isLoading?(false)
-            self.reloadTable?()
+            self.snapshotCompletion?(snapshot)
         }
     }
     
@@ -158,6 +156,6 @@ class ContactsListViewModel: PContactsListViewModel {
                 pl("Problem with executing persons error \n\(error)")
             }
         })
-        
     }
+
 }

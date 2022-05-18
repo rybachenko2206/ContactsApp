@@ -16,6 +16,14 @@ extension UITableView {
     
     func dequeueReusableCell<T: UITableViewCell>(for indexPath: IndexPath, cellType: T.Type = T.self) -> T where T: ReusableCell {
         guard let cell = self.dequeueReusableCell(withIdentifier: cellType.reuseIdentifier, for: indexPath) as? T else {
+            fatalError("Failed to dequeue a cell at indexPath \(indexPath) with identifier \(cellType.reuseIdentifier) matching type \(cellType.self).")
+        }
+        
+        return cell
+    }
+    
+    func dequeueReusableCell<T: UITableViewCell>(cellType: T.Type = T.self) -> T? where T: ReusableCell {
+        guard let cell =  self.dequeueReusableCell(withIdentifier: cellType.reuseIdentifier) as? T else {
             fatalError("Failed to dequeue a cell with identifier \(cellType.reuseIdentifier) matching type \(cellType.self).")
         }
         

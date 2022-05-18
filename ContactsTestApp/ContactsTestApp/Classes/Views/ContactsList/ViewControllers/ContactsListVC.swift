@@ -19,6 +19,7 @@ class ContactsListVC: UIViewController, Storyboardable {
     static var storyboardName: Storyboard { Storyboard.main }
     
     var viewModel: PContactsListViewModel?
+    private lazy var diffableDataSource = setupDataSource()
 
     
     // MARK: - Override funcs
@@ -45,8 +46,9 @@ class ContactsListVC: UIViewController, Storyboardable {
         
         tableView.registerCell(ContactCell.self)
         
-        tableView.dataSource = self
-        tableView.delegate = self
+        tableView.dataSource = diffableDataSource
+//        tableView.delegate = self
+        
     }
     
 //    private func bindViewModel() {
@@ -89,33 +91,30 @@ class ContactsListVC: UIViewController, Storyboardable {
             AlertManager.showAlert(with: error, to: self)
         }
         
-        viewModel?.reloadTable = { [weak self] in
-            self?.tableView.reloadData()
+        viewModel?.snapshotCompletion = { [weak self] snapshot in
+            self?.diffableDataSource.apply(snapshot)
         }
     }
+    
+    private func setupDataSource() -> UITableViewDiffableDataSource<ContactsSection, ContactCellViewModel> {
+        let dataSource = UITableViewDiffableDataSource<ContactsSection, ContactCellViewModel>(
+            tableView: tableView,
+            cellProvider: { tableView, indexPath, cellViewModel in
+                let cell = tableView.dequeueReusableCell(cellType: ContactCell.self)
+                cell?.setup(with: cellViewModel)
+                
+                return cell
+            })
+        
+        return dataSource
+    }
+
 }
 
-// MARK: - UITableViewDataSource, UITableViewDelegate
-extension ContactsListVC: UITableViewDataSource, UITableViewDelegate {
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return viewModel?.numberOfSections() ?? 0
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel?.numberOfRows(in: section) ?? 0
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cellVm = viewModel?.contactItem(for: indexPath) else { return UITableViewCell() }
-        let cell = tableView.dequeueReusableCell(for: indexPath, cellType: ContactCell.self)
-        
-        cell.setup(with: cellVm)
-        
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // TODO: Open contact details
-    }
-}
+// MARK: - UITableViewDelegate
+//extension ContactsListVC: UITableViewDelegate {
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        // TODO: Open contact details
+//    }
+//}
 
