@@ -17,7 +17,7 @@ class ContactCell: UITableViewCell, ReusableCell {
     override func awakeFromNib() {
         super.awakeFromNib()
        
-        avatarImageView.layer.cornerRadius = avatarImageView.bounds.width
+        avatarImageView.layer.cornerRadius = avatarImageView.bounds.width / 2
         avatarImageView.layer.masksToBounds = true
     }
 

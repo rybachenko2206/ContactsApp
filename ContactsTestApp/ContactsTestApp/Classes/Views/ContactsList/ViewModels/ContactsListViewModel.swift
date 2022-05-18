@@ -9,10 +9,17 @@ import Foundation
 import Combine
 import CoreData
 
+typealias Completion = () -> Void
+typealias BoolCompletion = (Bool) -> Void
+typealias ErrorCompletion = (AppError) -> Void
+
 protocol PContactsListViewModel/*: DataLoadable*/ {
 //    var reloadPublisher: AnyPublisher<Void, Never> { get }
 //    var isLoadingPublisher: AnyPublisher<Bool, Never> { get }
-//    var errorPublisher: AnyPublisher<AppError, Never>
+//    var errorPublisher: AnyPublisher<AppError, Never> { get }
+    var reloadTable: Completion? { get set }
+    var isLoading: BoolCompletion? { get set }
+    var errorCompletion: ErrorCompletion? { get set }
     
     func start()
     func numberOfSections() -> Int
@@ -25,14 +32,17 @@ class ContactsListViewModel: PContactsListViewModel {
     private let coreDataStack: CoreDataStack
     private let networkService: PNetworkService
     
+    private var moContext: NSManagedObjectContext {
+        return coreDataStack.mainContext
+    }
+    
     private var contactsViewModels: [ContactCellViewModel] = []
-    private var contacts: [Contact] = []
     
-    @Published private var isLoading: Bool = false
-    @Published private var error: AppError?
-    
-    private let reloadTable = PassthroughSubject<Void, Never>()
-    
+//    @Published private var isLoading: Bool = false
+//    @Published private var error: AppError?
+//
+//    private let reloadTable = PassthroughSubject<Void, Never>()
+//
 //    var reloadPublisher: AnyPublisher<Void, Never> {
 //        reloadPublisher.eraseToAnyPublisher()
 //    }
@@ -46,19 +56,32 @@ class ContactsListViewModel: PContactsListViewModel {
 //            .eraseToAnyPublisher()
 //    }
     
+    var reloadTable: Completion?
+    var isLoading: BoolCompletion?
+    var errorCompletion: ErrorCompletion?
+    
     // MARK: - Init
     init(coreDataStack: CoreDataStack, networkService: PNetworkService) {
         self.coreDataStack = coreDataStack
         self.networkService = networkService
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(contextDidChange(_:)),
+                                               name: .NSManagedObjectContextObjectsDidChange,
+                                               object: moContext)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     // MARK: - Public funcs
     func start() {
+        isLoading?(true)
+        
         fetchLocalContacts(completion: { [weak self] result in
             if result.count > 0 {
-                self?.contacts = result
-                self?.isLoading = false
-                self?.reloadTable.send(())
+                self?.handleSuccess(with: result)
             }  else {
                 self?.getContactsFromServer()
             }
@@ -77,7 +100,29 @@ class ContactsListViewModel: PContactsListViewModel {
         return contactsViewModels[safe: indexPath.row]
     }
     
+    // MARK: - Notification Observers
+    @objc private func contextDidChange(_ notification: Notification) {
+        fetchLocalContacts(completion: { [weak self] results in
+            self?.handleSuccess(with: results)
+        })
+    }
+    
     // MARK: - Private funcs
+    private func handleSuccess(with results: [Contact]) {
+        contactsViewModels = results.compactMap({ ContactCellViewModel(contact: $0) })
+        DispatchQueue.main.async {
+            self.isLoading?(false)
+            self.reloadTable?()
+        }
+    }
+    
+    private func handleFailure(with error: AppError) {
+        DispatchQueue.main.async {
+            self.isLoading?(false)
+            self.errorCompletion?(error)
+        }
+    }
+    
     private func saveReceivedContacts(_ contacts: [Contact]) {
         guard contacts.count > 0,
               let context = contacts.first?.managedObjectContext
@@ -87,21 +132,18 @@ class ContactsListViewModel: PContactsListViewModel {
     }
     
     private func getContactsFromServer() {
-        isLoading = true
         networkService.getContacts(completion: { [weak self] result in
             switch result {
             case .success(let response):
                 self?.saveReceivedContacts(response.results)
-                self?.reloadTable.send(())
             case .failure(let error):
-                self?.error = error
+                self?.handleFailure(with: error)
             }
-            self?.isLoading = false
         })
     }
     
     private func fetchLocalContacts(completion: @escaping ([Contact]) -> Void) {
-        isLoading = true
+        isLoading?(true)
         coreDataStack.mainContext.perform({
             let fetchRequest = Contact.fetchRequest()
             let lastNameSortDescr = NSSortDescriptor(key: "name.last", ascending: true)
@@ -110,6 +152,7 @@ class ContactsListViewModel: PContactsListViewModel {
             
             do {
                 let results = try fetchRequest.execute()
+                pl("local contacts count - \(results.count)")
                 completion(results)
             } catch {
                 pl("Problem with executing persons error \n\(error)")

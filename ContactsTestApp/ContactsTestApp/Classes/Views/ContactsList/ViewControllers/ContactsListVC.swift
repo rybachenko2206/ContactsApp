@@ -28,8 +28,9 @@ class ContactsListVC: UIViewController, Storyboardable {
         self.title = "My Contacts"
         
         setupTableView()
-        bindViewModel()
-//        viewModel?.start()
+//        bindViewModel()
+        setupCompletions()
+        viewModel?.start()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -48,7 +49,7 @@ class ContactsListVC: UIViewController, Storyboardable {
         tableView.delegate = self
     }
     
-    private func bindViewModel() {
+//    private func bindViewModel() {
 //        viewModel?.isLoadingPublisher
 //            .subscribe(on: DispatchQueue.main)
 //            .sink(receiveValue: { [weak self] isLoading in
@@ -73,6 +74,24 @@ class ContactsListVC: UIViewController, Storyboardable {
 //                self?.tableView.reloadData()
 //            })
 //            .store(in: &subscriptions)
+//    }
+    
+    private func setupCompletions() {
+        viewModel?.isLoading = { [weak self] isLoading in
+            if isLoading {
+                self?.activityIndicator.startAnimating()
+            } else {
+                self?.activityIndicator.stopAnimating()
+            }
+        }
+        
+        viewModel?.errorCompletion = { [weak self] error in
+            AlertManager.showAlert(with: error, to: self)
+        }
+        
+        viewModel?.reloadTable = { [weak self] in
+            self?.tableView.reloadData()
+        }
     }
 }
 

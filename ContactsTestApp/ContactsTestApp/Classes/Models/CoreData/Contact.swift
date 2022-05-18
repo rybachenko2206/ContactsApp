@@ -9,10 +9,10 @@ import Foundation
 import CoreData
 
 extension Contact {
-    class func getContact(email: String, gender: String?, dateOfBirth: DateOfBirth?, name: Name?, location: Location?, picture: Picture?, context: NSManagedObjectContext) -> Contact? {
+    class func getContact(email: String, gender: String?, homePhone: String, mobilePhone: String, dateOfBirth: DateOfBirth?, name: Name?, location: Location?, picture: Picture?, context: NSManagedObjectContext) -> Contact? {
         guard !email.isEmpty else { return nil }
         let fetchRequest = Contact.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "email = %@", email)
+        fetchRequest.predicate = NSPredicate(format: "email = %@ OR homePhone = %@ OR mobilePhone = %@", email, homePhone, mobilePhone)
         
         return createContact(email: email, gender: gender, dateOfBirth: dateOfBirth, name: name, location: location, picture: picture, context: context)
     }

@@ -2,7 +2,7 @@
 //  Contact+CoreDataProperties.swift
 //  ContactsTestApp
 //
-//  Created by Roman Rybachenko on 17.05.2022.
+//  Created by Roman Rybachenko on 18.05.2022.
 //
 //
 
@@ -18,6 +18,8 @@ extension Contact {
 
     @NSManaged public var email: String?
     @NSManaged public var gender: String?
+    @NSManaged public var homePhone: String?
+    @NSManaged public var mobilePhone: String?
     @NSManaged public var dob: DateOfBirth?
     @NSManaged public var location: Location?
     @NSManaged public var name: Name?

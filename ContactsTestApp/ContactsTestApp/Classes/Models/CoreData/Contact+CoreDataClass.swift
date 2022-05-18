@@ -27,6 +27,8 @@ public class Contact: NSManagedObject, Decodable, ManagedObjectType {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
         email = try container.decode(String.self, forKey: .email)
+        homePhone = try? container.decode(String.self, forKey: .homePhone)
+        mobilePhone = try? container.decode(String.self, forKey: .mobilePhone)
         gender = try? container.decode(String.self, forKey: .gender)
         dob = try? container.decode(DateOfBirth.self, forKey: .dob)
         location = try? container.decode(Location.self, forKey: .location)
@@ -36,5 +38,7 @@ public class Contact: NSManagedObject, Decodable, ManagedObjectType {
     
     enum CodingKeys: String, CodingKey {
         case email, gender, dob, location, name, picture
+        case homePhone = "phone"
+        case mobilePhone = "cell"
     }
 }
