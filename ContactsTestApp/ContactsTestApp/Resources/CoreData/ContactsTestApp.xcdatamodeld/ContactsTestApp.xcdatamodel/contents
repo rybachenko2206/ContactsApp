@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="20086" systemVersion="21E258" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Contact" representedClassName=".Contact" syncable="YES">
+        <attribute name="email" attributeType="String"/>
+        <attribute name="gender" optional="YES" attributeType="String"/>
+        <relationship name="dob" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DateOfBirth" inverseName="contact" inverseEntity="DateOfBirth"/>
+        <relationship name="location" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Location" inverseName="contact" inverseEntity="Location"/>
+        <relationship name="name" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Name" inverseName="contact" inverseEntity="Name"/>
+        <relationship name="picture" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Picture" inverseName="contact" inverseEntity="Picture"/>
+    </entity>
+    <entity name="DateOfBirth" representedClassName=".DateOfBirth" syncable="YES">
+        <attribute name="age" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="date" optional="YES" attributeType="String"/>
+        <relationship name="contact" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Contact" inverseName="dob" inverseEntity="Contact"/>
+    </entity>
+    <entity name="Location" representedClassName=".Location" syncable="YES">
+        <attribute name="city" optional="YES" attributeType="String"/>
+        <attribute name="country" optional="YES" attributeType="String"/>
+        <attribute name="state" optional="YES" attributeType="String"/>
+        <relationship name="contact" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Contact" inverseName="location" inverseEntity="Contact"/>
+    </entity>
+    <entity name="Name" representedClassName=".Name" syncable="YES">
+        <attribute name="first" optional="YES" attributeType="String"/>
+        <attribute name="last" optional="YES" attributeType="String"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <relationship name="contact" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Contact" inverseName="name" inverseEntity="Contact"/>
+    </entity>
+    <entity name="Picture" representedClassName=".Picture" syncable="YES">
+        <attribute name="large" optional="YES" attributeType="String"/>
+        <attribute name="medium" optional="YES" attributeType="String"/>
+        <attribute name="thumbnail" optional="YES" attributeType="String"/>
+        <relationship name="contact" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Contact" inverseName="picture" inverseEntity="Contact"/>
+    </entity>
+    <elements>
+        <element name="DateOfBirth" positionX="4.01239013671875" positionY="-120.1122741699219" width="128" height="88"/>
+        <element name="Location" positionX="32.00018310546875" positionY="2.482879638671875" width="128" height="103"/>
+        <element name="Name" positionX="36.54022216796875" positionY="120.2654418945312" width="128" height="103"/>
+        <element name="Contact" positionX="-443.8949584960938" positionY="5.215545654296875" width="128" height="133"/>
+        <element name="Picture" positionX="18.3824462890625" positionY="244.0675964355469" width="128" height="103"/>
+    </elements>
+</model>
