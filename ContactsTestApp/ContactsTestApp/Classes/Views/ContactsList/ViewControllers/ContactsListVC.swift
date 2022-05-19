@@ -47,8 +47,6 @@ class ContactsListVC: UIViewController, Storyboardable {
         tableView.registerCell(ContactCell.self)
         
         tableView.dataSource = diffableDataSource
-//        tableView.delegate = self
-        
     }
     
 //    private func bindViewModel() {
@@ -96,8 +94,8 @@ class ContactsListVC: UIViewController, Storyboardable {
         }
     }
     
-    private func setupDataSource() -> UITableViewDiffableDataSource<ContactsSection, ContactCellViewModel> {
-        let dataSource = UITableViewDiffableDataSource<ContactsSection, ContactCellViewModel>(
+    private func setupDataSource() -> ContactsListDiffableDataSource {
+        let dataSource = ContactsListDiffableDataSource(
             tableView: tableView,
             cellProvider: { tableView, indexPath, cellViewModel in
                 let cell = tableView.dequeueReusableCell(cellType: ContactCell.self)
@@ -110,11 +108,3 @@ class ContactsListVC: UIViewController, Storyboardable {
     }
 
 }
-
-// MARK: - UITableViewDelegate
-//extension ContactsListVC: UITableViewDelegate {
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        // TODO: Open contact details
-//    }
-//}
-

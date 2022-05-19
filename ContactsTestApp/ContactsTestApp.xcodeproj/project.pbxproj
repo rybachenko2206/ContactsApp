@@ -51,6 +51,7 @@
 		4257021928325FCF0063BAB7 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4257021828325FCF0063BAB7 /* CoreDataStack.swift */; };
 		42591EFF2832BC6B00E958F4 /* JSONDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42591EFE2832BC6B00E958F4 /* JSONDecoder.swift */; };
 		42EE6342283513E90071FC5D /* Contact+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EE6340283513E90071FC5D /* Contact+CoreDataProperties.swift */; };
+		42EE634728353AFB0071FC5D /* ContactsListDiffableDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EE634628353AFB0071FC5D /* ContactsListDiffableDataSource.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -98,6 +99,7 @@
 		4257021828325FCF0063BAB7 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		42591EFE2832BC6B00E958F4 /* JSONDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDecoder.swift; sourceTree = "<group>"; };
 		42EE6340283513E90071FC5D /* Contact+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Contact+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		42EE634628353AFB0071FC5D /* ContactsListDiffableDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsListDiffableDataSource.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -301,6 +303,7 @@
 			children = (
 				42EE6344283516550071FC5D /* ViewControllers */,
 				42EE6343283516430071FC5D /* ViewModels */,
+				42EE634528353AD90071FC5D /* DataSources */,
 				424420482833ABBC009EA93B /* CustomViews */,
 			);
 			path = ContactsList;
@@ -321,6 +324,14 @@
 				425701F028325B3B0063BAB7 /* ContactsListVC.swift */,
 			);
 			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		42EE634528353AD90071FC5D /* DataSources */ = {
+			isa = PBXGroup;
+			children = (
+				42EE634628353AFB0071FC5D /* ContactsListDiffableDataSource.swift */,
+			);
+			path = DataSources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -429,6 +440,7 @@
 				425701F128325B3B0063BAB7 /* ContactsListVC.swift in Sources */,
 				424420532833BC1F009EA93B /* AlertManager.swift in Sources */,
 				42096D092832967B00AE80A2 /* Picture+CoreDataClass.swift in Sources */,
+				42EE634728353AFB0071FC5D /* ContactsListDiffableDataSource.swift in Sources */,
 				42EE6342283513E90071FC5D /* Contact+CoreDataProperties.swift in Sources */,
 				4219B60C2833EDF1000C49A4 /* Name+CoreDataProperties.swift in Sources */,
 				4219B6102833EDF1000C49A4 /* Picture+CoreDataProperties.swift in Sources */,

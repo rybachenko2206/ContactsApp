@@ -13,10 +13,12 @@ import UIKit
 typealias Completion = () -> Void
 typealias BoolCompletion = (Bool) -> Void
 typealias ErrorCompletion = (AppError) -> Void
-typealias SnapshotCompletion = (NSDiffableDataSourceSnapshot<ContactsSection, ContactCellViewModel>) -> Void
+typealias SnapshotCompletion = (NSDiffableDataSourceSnapshot<ContactsListSectionModel, ContactCellViewModel>) -> Void
 
-enum ContactsSection: Int, CaseIterable {
-    case first
+
+struct ContactsListSectionModel: Hashable {
+    let header: String
+    let items: [ContactCellViewModel]
 }
 
 protocol PContactsListViewModel/*: DataLoadable*/ {
@@ -102,16 +104,41 @@ class ContactsListViewModel: PContactsListViewModel {
     
     // MARK: - Private funcs
     private func handleSuccess(with results: [Contact]) {
-        contactsViewModels = results.compactMap({ ContactCellViewModel(contact: $0) })
+        let sectionModels = makeSectionModels(with: results)
         
-        var snapshot = NSDiffableDataSourceSnapshot<ContactsSection, ContactCellViewModel>()
-        snapshot.appendSections([.first])
-        snapshot.appendItems(contactsViewModels)
+        var snapshot = NSDiffableDataSourceSnapshot<ContactsListSectionModel, ContactCellViewModel>()
+        
+        snapshot.appendSections(sectionModels)
+        for sectionModel in sectionModels {
+            snapshot.appendItems(sectionModel.items, toSection: sectionModel)
+        }
         
         DispatchQueue.main.async {
             self.isLoading?(false)
             self.snapshotCompletion?(snapshot)
         }
+    }
+    
+    private func makeSectionModels(with contacts: [Contact]) -> [ContactsListSectionModel] {
+        let itemViewModels = contacts.compactMap({ ContactCellViewModel(contact: $0) })
+        var sectionModels: [ContactsListSectionModel] = []
+        
+        var lettersSet = Set<String>()
+        itemViewModels.forEach({
+            if let letter = $0.lastName?.first {
+                lettersSet.insert(String(letter))
+            }
+        })
+        for letter in lettersSet {
+            let filteredItems = itemViewModels.filter({ $0.lastName?.hasPrefix(letter) ?? false })
+            let sectionModel = ContactsListSectionModel(header: letter, items: filteredItems)
+            sectionModels.append(sectionModel)
+        }
+        
+        sectionModels.sort(by: {
+            $0.header < $1.header
+        })
+        return sectionModels
     }
     
     private func handleFailure(with error: AppError) {
@@ -144,9 +171,9 @@ class ContactsListViewModel: PContactsListViewModel {
         isLoading?(true)
         coreDataStack.mainContext.perform({
             let fetchRequest = Contact.fetchRequest()
-            let lastNameSortDescr = NSSortDescriptor(key: "name.last", ascending: true)
-            let firstNameSortDescr = NSSortDescriptor(key: "name.first", ascending: true)
-            fetchRequest.sortDescriptors = [lastNameSortDescr, firstNameSortDescr]
+//            let lastNameSortDescr = NSSortDescriptor(key: "name.last", ascending: true)
+//            let firstNameSortDescr = NSSortDescriptor(key: "name.first", ascending: true)
+//            fetchRequest.sortDescriptors = [lastNameSortDescr, firstNameSortDescr]
             
             do {
                 let results = try fetchRequest.execute()
