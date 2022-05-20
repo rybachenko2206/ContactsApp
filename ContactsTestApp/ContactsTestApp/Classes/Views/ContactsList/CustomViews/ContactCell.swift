@@ -13,6 +13,7 @@ class ContactCell: UITableViewCell, ReusableCell {
     @IBOutlet private weak var firstNameLabel: UILabel!
     @IBOutlet private weak var lastNameLabel: UILabel!
     
+    private(set) var viewModel: ContactCellViewModel?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -30,6 +31,8 @@ class ContactCell: UITableViewCell, ReusableCell {
         avatarImageView.sd_setImage(with: viewModel.avatarImageUrl, placeholderImage: viewModel.placeholderImage)
         firstNameLabel.text = viewModel.firstName
         lastNameLabel.text = viewModel.lastName
+        
+        self.viewModel = viewModel
     }
     
 }

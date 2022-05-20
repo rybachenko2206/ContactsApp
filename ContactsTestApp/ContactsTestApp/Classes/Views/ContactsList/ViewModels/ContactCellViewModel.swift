@@ -10,7 +10,7 @@ import UIKit
 
 class ContactCellViewModel: Hashable {
     // MARK: - Properties
-    let contact: Contact
+    private let contact: Contact
     
     var firstName: String? { contact.name?.first }
     var lastName: String? { contact.name?.last }
@@ -20,13 +20,17 @@ class ContactCellViewModel: Hashable {
             .withRenderingMode(.alwaysTemplate)
     }
     var avatarImageUrl: URL? {
-        guard let thumbnail = contact.picture?.thumbnail else { return nil }
+        guard let thumbnail = contact.picture?.medium else { return nil }
         return URL(string: thumbnail)
     }
     
     // MARK: - Init
     init(contact: Contact) {
         self.contact = contact
+    }
+    
+    func detailsViewModel() -> PContactDetailsVM {
+        return ContactDetailsVM(with: contact)
     }
     
     // MARK: - Hashable

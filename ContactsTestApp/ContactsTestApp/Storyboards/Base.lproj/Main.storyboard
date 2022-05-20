@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="cGA-G1-Vph">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -44,6 +45,36 @@
             </objects>
             <point key="canvasLocation" x="941" y="104"/>
         </scene>
+        <!--Contact DetailsVC-->
+        <scene sceneID="57Z-qI-1bT">
+            <objects>
+                <viewController storyboardIdentifier="ContactDetailsVC" id="QQe-88-d5T" customClass="ContactDetailsVC" customModule="ContactsTestApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="GUR-x9-mTI">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="7bN-WF-V4Z">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="K2P-aY-z1k"/>
+                        <color key="backgroundColor" systemColor="systemGray5Color"/>
+                        <constraints>
+                            <constraint firstItem="7bN-WF-V4Z" firstAttribute="leading" secondItem="K2P-aY-z1k" secondAttribute="leading" id="1Wp-Pz-M0o"/>
+                            <constraint firstItem="K2P-aY-z1k" firstAttribute="bottom" secondItem="7bN-WF-V4Z" secondAttribute="bottom" id="bAg-v5-I2c"/>
+                            <constraint firstItem="7bN-WF-V4Z" firstAttribute="top" secondItem="K2P-aY-z1k" secondAttribute="top" id="ghF-G0-uPi"/>
+                            <constraint firstItem="K2P-aY-z1k" firstAttribute="trailing" secondItem="7bN-WF-V4Z" secondAttribute="trailing" id="wIP-SO-Tll"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="tableView" destination="7bN-WF-V4Z" id="DWg-2N-OZl"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MKb-PP-zID" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1758" y="104"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="1mn-hp-xGe">
             <objects>
@@ -66,6 +97,9 @@
     <resources>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGray5Color">
+            <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

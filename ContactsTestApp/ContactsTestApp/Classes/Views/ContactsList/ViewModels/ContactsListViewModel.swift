@@ -22,6 +22,8 @@ struct ContactsListSectionModel: Hashable {
 }
 
 protocol PContactsListViewModel/*: DataLoadable*/ {
+    var title: String { get }
+    
 //    var reloadPublisher: AnyPublisher<Void, Never> { get }
 //    var isLoadingPublisher: AnyPublisher<Bool, Never> { get }
 //    var errorPublisher: AnyPublisher<AppError, Never> { get }
@@ -61,6 +63,7 @@ class ContactsListViewModel: PContactsListViewModel {
 //            .compactMap({ $0 })
 //            .eraseToAnyPublisher()
 //    }
+    let title = "My Contacts"
     
     var isLoading: BoolCompletion?
     var errorCompletion: ErrorCompletion?
@@ -171,10 +174,6 @@ class ContactsListViewModel: PContactsListViewModel {
         isLoading?(true)
         coreDataStack.mainContext.perform({
             let fetchRequest = Contact.fetchRequest()
-//            let lastNameSortDescr = NSSortDescriptor(key: "name.last", ascending: true)
-//            let firstNameSortDescr = NSSortDescriptor(key: "name.first", ascending: true)
-//            fetchRequest.sortDescriptors = [lastNameSortDescr, firstNameSortDescr]
-            
             do {
                 let results = try fetchRequest.execute()
                 pl("local contacts count - \(results.count)")

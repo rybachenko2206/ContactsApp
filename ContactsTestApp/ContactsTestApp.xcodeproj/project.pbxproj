@@ -52,6 +52,13 @@
 		42591EFF2832BC6B00E958F4 /* JSONDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42591EFE2832BC6B00E958F4 /* JSONDecoder.swift */; };
 		42EE6342283513E90071FC5D /* Contact+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EE6340283513E90071FC5D /* Contact+CoreDataProperties.swift */; };
 		42EE634728353AFB0071FC5D /* ContactsListDiffableDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EE634628353AFB0071FC5D /* ContactsListDiffableDataSource.swift */; };
+		42EE634B283636560071FC5D /* ContactDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EE634A283636560071FC5D /* ContactDetailsVC.swift */; };
+		42EE634E28363A3F0071FC5D /* ContactDetailsVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EE634D28363A3F0071FC5D /* ContactDetailsVM.swift */; };
+		42EE6351283645970071FC5D /* ContactDetailsHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EE6350283645970071FC5D /* ContactDetailsHeaderView.swift */; };
+		42EE6353283647210071FC5D /* NibMakableProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EE6352283647210071FC5D /* NibMakableProtocol.swift */; };
+		42EE6357283683FF0071FC5D /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EE6356283683FF0071FC5D /* UIView.swift */; };
+		42EE6359283684BD0071FC5D /* ContactDetailsHeaderVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EE6358283684BD0071FC5D /* ContactDetailsHeaderVM.swift */; };
+		42EE635B2837874C0071FC5D /* ContactDetailsHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42EE635A2837874C0071FC5D /* ContactDetailsHeaderView.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -100,6 +107,13 @@
 		42591EFE2832BC6B00E958F4 /* JSONDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDecoder.swift; sourceTree = "<group>"; };
 		42EE6340283513E90071FC5D /* Contact+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Contact+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		42EE634628353AFB0071FC5D /* ContactsListDiffableDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsListDiffableDataSource.swift; sourceTree = "<group>"; };
+		42EE634A283636560071FC5D /* ContactDetailsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactDetailsVC.swift; sourceTree = "<group>"; };
+		42EE634D28363A3F0071FC5D /* ContactDetailsVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactDetailsVM.swift; sourceTree = "<group>"; };
+		42EE6350283645970071FC5D /* ContactDetailsHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactDetailsHeaderView.swift; sourceTree = "<group>"; };
+		42EE6352283647210071FC5D /* NibMakableProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NibMakableProtocol.swift; sourceTree = "<group>"; };
+		42EE6356283683FF0071FC5D /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
+		42EE6358283684BD0071FC5D /* ContactDetailsHeaderVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactDetailsHeaderVM.swift; sourceTree = "<group>"; };
+		42EE635A2837874C0071FC5D /* ContactDetailsHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ContactDetailsHeaderView.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -251,6 +265,7 @@
 			isa = PBXGroup;
 			children = (
 				4257020D28325DBA0063BAB7 /* ContactsList */,
+				42EE6348283636260071FC5D /* ContactDetails */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -273,6 +288,7 @@
 				4257021228325E4A0063BAB7 /* UITableView+Methods.swift */,
 				421BAA96283261DB00A434CB /* Array.swift */,
 				42591EFE2832BC6B00E958F4 /* JSONDecoder.swift */,
+				42EE6356283683FF0071FC5D /* UIView.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -294,6 +310,7 @@
 				4257021428325E7D0063BAB7 /* Storyboardable.swift */,
 				421BAAA428326CBA00A434CB /* ManagedObjectType.swift */,
 				424420462833A028009EA93B /* DataLoadable.swift */,
+				42EE6352283647210071FC5D /* NibMakableProtocol.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -332,6 +349,42 @@
 				42EE634628353AFB0071FC5D /* ContactsListDiffableDataSource.swift */,
 			);
 			path = DataSources;
+			sourceTree = "<group>";
+		};
+		42EE6348283636260071FC5D /* ContactDetails */ = {
+			isa = PBXGroup;
+			children = (
+				42EE6349283636350071FC5D /* ViewControllers */,
+				42EE634C283639610071FC5D /* ViewModels */,
+				42EE634F2836455F0071FC5D /* CustomViews */,
+			);
+			path = ContactDetails;
+			sourceTree = "<group>";
+		};
+		42EE6349283636350071FC5D /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				42EE634A283636560071FC5D /* ContactDetailsVC.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		42EE634C283639610071FC5D /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				42EE634D28363A3F0071FC5D /* ContactDetailsVM.swift */,
+				42EE6358283684BD0071FC5D /* ContactDetailsHeaderVM.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		42EE634F2836455F0071FC5D /* CustomViews */ = {
+			isa = PBXGroup;
+			children = (
+				42EE6350283645970071FC5D /* ContactDetailsHeaderView.swift */,
+				42EE635A2837874C0071FC5D /* ContactDetailsHeaderView.xib */,
+			);
+			path = CustomViews;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -404,6 +457,7 @@
 				425701FC28325B3E0063BAB7 /* LaunchScreen.storyboard in Resources */,
 				425701F928325B3E0063BAB7 /* Assets.xcassets in Resources */,
 				425701F428325B3B0063BAB7 /* Main.storyboard in Resources */,
+				42EE635B2837874C0071FC5D /* ContactDetailsHeaderView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -430,16 +484,21 @@
 				4257021628325E7D0063BAB7 /* Storyboardable.swift in Sources */,
 				4244204E2833B18E009EA93B /* ContactCellViewModel.swift in Sources */,
 				421BAA992832647D00A434CB /* ContactsListViewModel.swift in Sources */,
+				42EE634E28363A3F0071FC5D /* ContactDetailsVM.swift in Sources */,
 				4244204B2833ABF7009EA93B /* ContactCell.swift in Sources */,
 				421BAAA528326CBA00A434CB /* ManagedObjectType.swift in Sources */,
 				4219B5FC2833ED4D000C49A4 /* Contact.swift in Sources */,
 				4219B5F82833ECA9000C49A4 /* Picture.swift in Sources */,
+				42EE634B283636560071FC5D /* ContactDetailsVC.swift in Sources */,
 				4219B5F62833EC70000C49A4 /* Location.swift in Sources */,
 				425701F728325B3B0063BAB7 /* ContactsTestApp.xcdatamodeld in Sources */,
+				42EE6357283683FF0071FC5D /* UIView.swift in Sources */,
+				42EE6359283684BD0071FC5D /* ContactDetailsHeaderVM.swift in Sources */,
 				42096D122832AA7800AE80A2 /* APIMethod.swift in Sources */,
 				425701F128325B3B0063BAB7 /* ContactsListVC.swift in Sources */,
 				424420532833BC1F009EA93B /* AlertManager.swift in Sources */,
 				42096D092832967B00AE80A2 /* Picture+CoreDataClass.swift in Sources */,
+				42EE6353283647210071FC5D /* NibMakableProtocol.swift in Sources */,
 				42EE634728353AFB0071FC5D /* ContactsListDiffableDataSource.swift in Sources */,
 				42EE6342283513E90071FC5D /* Contact+CoreDataProperties.swift in Sources */,
 				4219B60C2833EDF1000C49A4 /* Name+CoreDataProperties.swift in Sources */,
@@ -447,6 +506,7 @@
 				4219B6082833EDF1000C49A4 /* DateOfBirth+CoreDataProperties.swift in Sources */,
 				425701ED28325B3B0063BAB7 /* AppDelegate.swift in Sources */,
 				425701EF28325B3B0063BAB7 /* SceneDelegate.swift in Sources */,
+				42EE6351283645970071FC5D /* ContactDetailsHeaderView.swift in Sources */,
 				421BAAA72832700800A434CB /* ServerError.swift in Sources */,
 				421BAA9B283264E100A434CB /* NetworkService.swift in Sources */,
 				4219B5F42833EC4B000C49A4 /* DateOfBirth.swift in Sources */,
@@ -608,6 +668,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -637,6 +698,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

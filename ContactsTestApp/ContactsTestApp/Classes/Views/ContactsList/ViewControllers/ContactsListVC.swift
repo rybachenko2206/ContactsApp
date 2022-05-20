@@ -26,7 +26,7 @@ class ContactsListVC: UIViewController, Storyboardable {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = "My Contacts"
+        self.title = viewModel?.title
         
         setupTableView()
 //        bindViewModel()
@@ -47,6 +47,7 @@ class ContactsListVC: UIViewController, Storyboardable {
         tableView.registerCell(ContactCell.self)
         
         tableView.dataSource = diffableDataSource
+        tableView.delegate = self
     }
     
 //    private func bindViewModel() {
@@ -106,5 +107,23 @@ class ContactsListVC: UIViewController, Storyboardable {
         
         return dataSource
     }
+    
+    private func showContactDetails(with viewModel: PContactDetailsVM) {
+        let contactDetailsVC = ContactDetailsVC.instantiate()
+        contactDetailsVC.viewModel = viewModel
+        navigationController?.pushViewController(contactDetailsVC, animated: true)
+    }
 
+}
+
+extension ContactsListVC: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        guard let cell = tableView.cellForRow(at: indexPath) as? ContactCell,
+              let detailsVm = cell.viewModel?.detailsViewModel()
+        else { return }
+        
+        showContactDetails(with: detailsVm)
+    }
 }
