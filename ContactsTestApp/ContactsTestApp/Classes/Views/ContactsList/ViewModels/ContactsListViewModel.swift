@@ -15,12 +15,6 @@ typealias BoolCompletion = (Bool) -> Void
 typealias ErrorCompletion = (AppError) -> Void
 typealias SnapshotCompletion = (NSDiffableDataSourceSnapshot<ContactsListSectionModel, ContactCellViewModel>) -> Void
 
-
-struct ContactsListSectionModel: Hashable {
-    let header: String
-    let items: [ContactCellViewModel]
-}
-
 protocol PContactsListViewModel/*: DataLoadable*/ {
     var title: String { get }
     

@@ -21,7 +21,7 @@ class ContactDetailsHeaderView: UIView, NibMakableProtocol {
     var contentView: UIView? { return view }
     
     static var defaultSize: CGSize {
-        return CGSize(width: UIScreen.main.bounds.width, height: 239)
+        return CGSize(width: UIScreen.main.bounds.width, height: 257)
     }
     
     private var viewModel: PContactDetailsHeaderVM?

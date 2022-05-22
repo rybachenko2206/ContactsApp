@@ -17,13 +17,15 @@ class ContactDetailsVC: UIViewController, Storyboardable {
     
     var viewModel: PContactDetailsVM?
     
+    private lazy var diffableDataSource = createDataSource()
+    
     // MARK: - Overriden funcs
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupView()
     }
-    
+
     // MARK: - Private funcs
     @objc private func editButtonTapped(_ sender: UIBarButtonItem) {
         pf()
@@ -37,18 +39,36 @@ class ContactDetailsVC: UIViewController, Storyboardable {
     }
     
     private func setupTableView() {
-//        tableView.contentInsetAdjustmentBehavior = .never
         tableView.contentInset = .init(top: 0, left: 0, bottom: view.safeAreaInsets.bottom, right: 0)
         
-        tableView.estimatedRowHeight = 44
+        tableView.estimatedRowHeight = ContactDetailsCell.height()
         tableView.rowHeight = UITableView.automaticDimension
         
-        if let headerVm = viewModel?.headerViewModel() {
+        tableView.registerCell(ContactDetailsCell.self)
+        tableView.registerCell(ContactCell.self)
+        
+        if let vm = viewModel {
             let frame = CGRect(origin: .zero, size: ContactDetailsHeaderView.defaultSize)
             let headerView = ContactDetailsHeaderView(frame: frame)
-            headerView.setup(with: headerVm)
+            headerView.setup(with: vm.headerViewModel())
             tableView.tableHeaderView = headerView
+
+            diffableDataSource.apply(vm.makeSnapshot())
         }
-        
+
+        tableView.dataSource = diffableDataSource
+    }
+    
+    private func createDataSource() -> UITableViewDiffableDataSource<ContactDetailsSectionModel, ContactDetailsCellVM> {
+        let dataSource = UITableViewDiffableDataSource<ContactDetailsSectionModel, ContactDetailsCellVM>(
+            tableView: tableView,
+            cellProvider: { tableView, indexPath, cellVm in
+                let cell = tableView.dequeueReusableCell(for: indexPath, cellType: ContactDetailsCell.self)
+                cell.setup(with: cellVm)
+
+                return cell
+            })
+
+        return dataSource
     }
 }

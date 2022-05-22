@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import CoreTelephony
+import UIKit
 
 class Utils {
 //    static let jsonDecoder: JSONDecoder = {
@@ -33,4 +35,27 @@ class Utils {
         }
         return url
     }()
+    
+    final class func isPhoneNumberValid(_ phoneNumber: String?) -> Bool {
+        // TODO: maybe add phone number validation
+        guard let phone = phoneNumber, !phone.isEmpty else { return false }
+        return true
+    }
+    
+    final class func canMakePhoneCall() -> Bool {
+        guard let url = URL(string: "tel://") else {
+            return false
+        }
+
+        return UIApplication.shared.canOpenURL(url)
+        
+        // TODO: mobileNetworkCode check
+//        let mobileNetworkCode = CTTelephonyNetworkInfo().subscriberCellularProvider?.mobileNetworkCode
+//
+//        let isInvalidNetworkCode = mobileNetworkCode == nil
+//            || mobileNetworkCode?.count == 0
+//            || mobileNetworkCode == "65535"
+//
+//        return UIApplication.shared.canOpenURL(url) && !isInvalidNetworkCode
+    }
 }

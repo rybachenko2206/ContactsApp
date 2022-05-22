@@ -30,11 +30,11 @@ class ContactDetailsHeaderVM: PContactDetailsHeaderVM {
     let placeholderImage = UIImage(systemName: "person.circle.fill")?.withRenderingMode(.alwaysTemplate)
     
     var callButtonEnabled: Bool {
-        isPhoneNumberValid()
+        Utils.isPhoneNumberValid(phoneNumber) && Utils.canMakePhoneCall()
     }
     
     var smsButtonEnabled: Bool {
-        isPhoneNumberValid()
+        Utils.isPhoneNumberValid(phoneNumber)
     }
     
     var emailButtonEnabled: Bool {
@@ -63,10 +63,4 @@ class ContactDetailsHeaderVM: PContactDetailsHeaderVM {
         pf()
     }
     
-    // MARK: - Private funcs
-    private func isPhoneNumberValid() -> Bool {
-        // TODO: maybe add phone number validation
-        guard let phone = phoneNumber, !phone.isEmpty else { return false }
-        return true
-    }
 }
