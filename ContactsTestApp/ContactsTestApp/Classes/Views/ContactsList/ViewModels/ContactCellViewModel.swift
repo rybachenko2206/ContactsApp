@@ -10,7 +10,7 @@ import UIKit
 
 class ContactCellViewModel: Hashable {
     // MARK: - Properties
-    private let contact: Contact
+    let contact: Contact
     
     var firstName: String? { contact.name?.first }
     var lastName: String? { contact.name?.last }
@@ -24,6 +24,8 @@ class ContactCellViewModel: Hashable {
         return URL(string: thumbnail)
     }
     
+    var deleteClosure: ((ContactCellViewModel) -> Void)?
+    
     // MARK: - Init
     init(contact: Contact) {
         self.contact = contact
@@ -31,6 +33,10 @@ class ContactCellViewModel: Hashable {
     
     func detailsViewModel() -> PContactDetailsVM {
         return ContactDetailsVM(with: contact)
+    }
+    
+    func deleteContact() {
+        deleteClosure?(self)
     }
     
     // MARK: - Hashable

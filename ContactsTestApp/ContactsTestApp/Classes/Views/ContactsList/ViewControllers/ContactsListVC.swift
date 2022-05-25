@@ -29,7 +29,7 @@ class ContactsListVC: UIViewController, Storyboardable {
         self.title = viewModel?.title
         
         setupTableView()
-//        bindViewModel()
+        bindViewModel()
         setupCompletions()
         viewModel?.start()
     }
@@ -50,7 +50,7 @@ class ContactsListVC: UIViewController, Storyboardable {
         tableView.delegate = self
     }
     
-//    private func bindViewModel() {
+    private func bindViewModel() {
 //        viewModel?.isLoadingPublisher
 //            .subscribe(on: DispatchQueue.main)
 //            .sink(receiveValue: { [weak self] isLoading in
@@ -68,14 +68,14 @@ class ContactsListVC: UIViewController, Storyboardable {
 //                AlertManager.showAlert(with: error, to: self)
 //            })
 //            .store(in: &subscriptions)
-//
-//        viewModel?.reloadPublisher
-//            .subscribe(on: DispatchQueue.main)
-//            .sink(receiveValue: { [weak self] in
-//                self?.tableView.reloadData()
-//            })
-//            .store(in: &subscriptions)
-//    }
+    
+        viewModel?.snapshotPublisher
+            .subscribe(on: DispatchQueue.main)
+            .sink(receiveValue: { [weak self] snapshot in
+                self?.diffableDataSource.apply(snapshot)
+            })
+            .store(in: &subscriptions)
+    }
     
     private func setupCompletions() {
         viewModel?.isLoading = { [weak self] isLoading in

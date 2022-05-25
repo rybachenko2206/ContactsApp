@@ -14,19 +14,21 @@ typealias Completion = () -> Void
 typealias BoolCompletion = (Bool) -> Void
 typealias ErrorCompletion = (AppError) -> Void
 typealias SnapshotCompletion = (NSDiffableDataSourceSnapshot<ContactsListSectionModel, ContactCellViewModel>) -> Void
+typealias ContactsListSnapshot = NSDiffableDataSourceSnapshot<ContactsListSectionModel, ContactCellViewModel>
 
 protocol PContactsListViewModel/*: DataLoadable*/ {
     var title: String { get }
     
-//    var reloadPublisher: AnyPublisher<Void, Never> { get }
 //    var isLoadingPublisher: AnyPublisher<Bool, Never> { get }
 //    var errorPublisher: AnyPublisher<AppError, Never> { get }
-//    var reloadTable: Completion? { get set }
+    var snapshotPublisher: AnyPublisher<ContactsListSnapshot, Never> { get }
+    
     var isLoading: BoolCompletion? { get set }
     var errorCompletion: ErrorCompletion? { get set }
     var snapshotCompletion: SnapshotCompletion? { get set }
     
     func start()
+    func deleteContact(_ contact: Contact)
 }
 
 class ContactsListViewModel: PContactsListViewModel {
@@ -38,13 +40,16 @@ class ContactsListViewModel: PContactsListViewModel {
         return coreDataStack.mainContext
     }
     
-    private var contactsViewModels: [ContactCellViewModel] = []
-    
 //    @Published private var isLoading: Bool = false
 //    @Published private var error: AppError?
-//
-//    private let reloadTable = PassthroughSubject<Void, Never>()
-//
+
+    @Published private var snapshot: ContactsListSnapshot = ContactsListSnapshot()
+
+    var snapshotPublisher: AnyPublisher<ContactsListSnapshot, Never> {
+        $snapshot
+            .map({ $0 })
+            .eraseToAnyPublisher()
+    }
 //    var reloadPublisher: AnyPublisher<Void, Never> {
 //        reloadPublisher.eraseToAnyPublisher()
 //    }
@@ -69,10 +74,10 @@ class ContactsListViewModel: PContactsListViewModel {
         self.coreDataStack = coreDataStack
         self.networkService = networkService
         
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(contextDidChange(_:)),
-                                               name: .NSManagedObjectContextObjectsDidChange,
-                                               object: moContext)
+//        NotificationCenter.default.addObserver(self,
+//                                               selector: #selector(contextDidChange(_:)),
+//                                               name: .NSManagedObjectContextObjectsDidChange,
+//                                               object: moContext)
     }
     
     deinit {
@@ -92,23 +97,26 @@ class ContactsListViewModel: PContactsListViewModel {
         })
     }
     
+    func deleteContact(_ contact: Contact) {
+        guard let context = contact.managedObjectContext else { return }
+        context.delete(contact)
+        coreDataStack.saveContext(context: context)
+    }
+    
     // MARK: - Notification Observers
     @objc private func contextDidChange(_ notification: Notification) {
-        fetchLocalContacts(completion: { [weak self] results in
-            self?.handleSuccess(with: results)
-        })
+//        fetchLocalContacts(completion: { [weak self] results in
+//            guard let self = self, self.moContext.insertedObjects.count > 0
+//            else { return }
+//
+//            self.handleSuccess(with: results)
+//        })
     }
     
     // MARK: - Private funcs
+    
     private func handleSuccess(with results: [Contact]) {
-        let sectionModels = makeSectionModels(with: results)
-        
-        var snapshot = NSDiffableDataSourceSnapshot<ContactsListSectionModel, ContactCellViewModel>()
-        
-        snapshot.appendSections(sectionModels)
-        for sectionModel in sectionModels {
-            snapshot.appendItems(sectionModel.items, toSection: sectionModel)
-        }
+        let snapshot = makeSnapshot(with: results)
         
         DispatchQueue.main.async {
             self.isLoading?(false)
@@ -116,8 +124,27 @@ class ContactsListViewModel: PContactsListViewModel {
         }
     }
     
+    private func makeSnapshot(with contacts: [Contact]) -> ContactsListSnapshot {
+        let sectionModels = makeSectionModels(with: contacts)
+        
+        var snapshot = self.snapshot
+        
+        snapshot.appendSections(sectionModels)
+        for sectionModel in sectionModels {
+            snapshot.appendItems(sectionModel.items, toSection: sectionModel)
+        }
+        
+        return snapshot
+    }
+    
     private func makeSectionModels(with contacts: [Contact]) -> [ContactsListSectionModel] {
         let itemViewModels = contacts.compactMap({ ContactCellViewModel(contact: $0) })
+        itemViewModels.forEach({
+            $0.deleteClosure = { [weak self] contactCellVm in
+                guard let self = self else { return }
+                self.deleteContact(contactCellVm.contact)
+            }
+        })
         var sectionModels: [ContactsListSectionModel] = []
         
         var lettersSet = Set<String>()

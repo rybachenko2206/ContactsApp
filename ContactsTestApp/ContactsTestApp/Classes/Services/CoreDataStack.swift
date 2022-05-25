@@ -96,12 +96,14 @@ class CoreDataStack {
     // MARK: Public funcs
     
     func saveContext(context: NSManagedObjectContext) {
-        if context.hasChanges {
+        guard context.hasChanges else { return }
+        
+        context.perform {
             do {
                 try context.save()
-            } catch {
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+            } catch let nsError as NSError {
+                pl("Unable to Save Changes in backgroundContext")
+                pl("\(nsError), \(nsError.localizedDescription)")
             }
         }
     }
