@@ -99,7 +99,11 @@ class ContactsListViewModel: PContactsListViewModel {
     func deleteContact(_ contact: Contact) {
         guard let context = contact.managedObjectContext else { return }
         context.delete(contact)
-//        coreDataStack.saveContext(context: context)
+        // save context with local changes is moved to coreDataStack
+        // because of some animation's problems in diffable data source
+        // so, context with local changes is saved when
+        // applicationDidEnterBackground or applicationWillTerminate
+        // or when contacts list was refreshed
     }
     
     // MARK: - Notification Observers

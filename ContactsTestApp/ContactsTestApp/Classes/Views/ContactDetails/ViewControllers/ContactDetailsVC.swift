@@ -23,19 +23,12 @@ class ContactDetailsVC: UIViewController, Storyboardable {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupView()
+        setupTableView()
     }
 
     // MARK: - Private funcs
     @objc private func editButtonTapped(_ sender: UIBarButtonItem) {
         pf()
-    }
-    
-    private func setupView() {
-        setupTableView()
-        
-        let editBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(editButtonTapped(_:)))
-        navigationItem.rightBarButtonItem = editBarButtonItem
     }
     
     private func setupTableView() {
