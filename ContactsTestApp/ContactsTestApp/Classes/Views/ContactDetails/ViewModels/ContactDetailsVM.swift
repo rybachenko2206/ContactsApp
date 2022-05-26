@@ -80,6 +80,11 @@ class ContactDetailsVM: PContactDetailsVM {
             sectionModels.append(ContactDetailsSectionModel(title: nil, items: emailVms))
         }
         
+        let locationStr = [contact.location?.city, contact.location?.state, contact.location?.country].joinedBy("\n")
+        if let locationCellVm = ContactDetailsCellVM(title: "Location", value: locationStr) {
+            sectionModels.append(ContactDetailsSectionModel(title: nil, items: [locationCellVm]))
+        }
+        
         return sectionModels
     }
     

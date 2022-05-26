@@ -51,23 +51,23 @@ class ContactsListVC: UIViewController, Storyboardable {
     }
     
     private func bindViewModel() {
-//        viewModel?.isLoadingPublisher
-//            .subscribe(on: DispatchQueue.main)
-//            .sink(receiveValue: { [weak self] isLoading in
-//                if isLoading {
-//                    self?.activityIndicator.startAnimating()
-//                } else {
-//                    self?.activityIndicator.stopAnimating()
-//                }
-//            })
-//            .store(in: &subscriptions)
-//
-//        viewModel?.errorPublisher
-//            .subscribe(on: DispatchQueue.main)
-//            .sink(receiveValue: { [weak self] error in
-//                AlertManager.showAlert(with: error, to: self)
-//            })
-//            .store(in: &subscriptions)
+        viewModel?.isLoadingPublisher
+            .subscribe(on: DispatchQueue.main)
+            .sink(receiveValue: { [weak self] isLoading in
+                if isLoading {
+                    self?.activityIndicator.startAnimating()
+                } else {
+                    self?.activityIndicator.stopAnimating()
+                }
+            })
+            .store(in: &subscriptions)
+
+        viewModel?.errorPublisher
+            .subscribe(on: DispatchQueue.main)
+            .sink(receiveValue: { [weak self] error in
+                AlertManager.showAlert(with: error, to: self)
+            })
+            .store(in: &subscriptions)
     
         viewModel?.snapshotPublisher
             .subscribe(on: DispatchQueue.main)
@@ -78,21 +78,7 @@ class ContactsListVC: UIViewController, Storyboardable {
     }
     
     private func setupCompletions() {
-        viewModel?.isLoading = { [weak self] isLoading in
-            if isLoading {
-                self?.activityIndicator.startAnimating()
-            } else {
-                self?.activityIndicator.stopAnimating()
-            }
-        }
-        
-        viewModel?.errorCompletion = { [weak self] error in
-            AlertManager.showAlert(with: error, to: self)
-        }
-        
-        viewModel?.snapshotCompletion = { [weak self] snapshot in
-            self?.diffableDataSource.apply(snapshot)
-        }
+
     }
     
     private func setupDataSource() -> ContactsListDiffableDataSource {
@@ -113,7 +99,12 @@ class ContactsListVC: UIViewController, Storyboardable {
         contactDetailsVC.viewModel = viewModel
         navigationController?.pushViewController(contactDetailsVC, animated: true)
     }
-
+    
+    // MARK: Actions
+    @IBAction private func refreshButtonTapped(_ sender: UIBarButtonItem) {
+        viewModel?.getContactsFromServer()
+    }
+    
 }
 
 extension ContactsListVC: UITableViewDelegate {

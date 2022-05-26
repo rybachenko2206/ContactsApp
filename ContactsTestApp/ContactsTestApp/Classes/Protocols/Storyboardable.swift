@@ -32,7 +32,6 @@ protocol Storyboardable {
     // MARK: - Methods
     
     static func instantiate() -> Self
-    
 }
 
 extension Storyboardable where Self: UIViewController {

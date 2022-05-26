@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -46,6 +47,7 @@
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="ONz-1T-qv2" secondAttribute="trailing" constant="3" id="CBk-yU-dJV"/>
                     <constraint firstItem="ONz-1T-qv2" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="9" id="LhV-iL-cz7"/>
+                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="Ncr-Ez-zJZ" secondAttribute="bottom" constant="8" id="XR9-ah-IT2"/>
                     <constraint firstItem="Ncr-Ez-zJZ" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="9" id="nGn-wm-xz8"/>
                     <constraint firstAttribute="bottom" secondItem="ONz-1T-qv2" secondAttribute="bottom" constant="10" id="nlp-2S-jEM"/>
                     <constraint firstItem="Ncr-Ez-zJZ" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="rAa-uH-PA5"/>

@@ -53,6 +53,7 @@
 		42D95634283A7B0100D29ABE /* ContactDetailsCellVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D95633283A7B0100D29ABE /* ContactDetailsCellVM.swift */; };
 		42D95637283A848400D29ABE /* ContactDetailsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D95635283A848400D29ABE /* ContactDetailsCell.swift */; };
 		42D95638283A848400D29ABE /* ContactDetailsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 42D95636283A848400D29ABE /* ContactDetailsCell.xib */; };
+		42D9563A283E793F00D29ABE /* NSManagedObjectContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D95639283E793F00D29ABE /* NSManagedObjectContext.swift */; };
 		42EE6342283513E90071FC5D /* Contact+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EE6340283513E90071FC5D /* Contact+CoreDataProperties.swift */; };
 		42EE634728353AFB0071FC5D /* ContactsListDiffableDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EE634628353AFB0071FC5D /* ContactsListDiffableDataSource.swift */; };
 		42EE634B283636560071FC5D /* ContactDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EE634A283636560071FC5D /* ContactDetailsVC.swift */; };
@@ -111,6 +112,7 @@
 		42D95633283A7B0100D29ABE /* ContactDetailsCellVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactDetailsCellVM.swift; sourceTree = "<group>"; };
 		42D95635283A848400D29ABE /* ContactDetailsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactDetailsCell.swift; sourceTree = "<group>"; };
 		42D95636283A848400D29ABE /* ContactDetailsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ContactDetailsCell.xib; sourceTree = "<group>"; };
+		42D95639283E793F00D29ABE /* NSManagedObjectContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSManagedObjectContext.swift; sourceTree = "<group>"; };
 		42EE6340283513E90071FC5D /* Contact+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Contact+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		42EE634628353AFB0071FC5D /* ContactsListDiffableDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsListDiffableDataSource.swift; sourceTree = "<group>"; };
 		42EE634A283636560071FC5D /* ContactDetailsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactDetailsVC.swift; sourceTree = "<group>"; };
@@ -295,6 +297,7 @@
 				421BAA96283261DB00A434CB /* Array.swift */,
 				42591EFE2832BC6B00E958F4 /* JSONDecoder.swift */,
 				42EE6356283683FF0071FC5D /* UIView.swift */,
+				42D95639283E793F00D29ABE /* NSManagedObjectContext.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -479,6 +482,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4257021728325E7D0063BAB7 /* ReusableCell.swift in Sources */,
+				42D9563A283E793F00D29ABE /* NSManagedObjectContext.swift in Sources */,
 				4219B5FA2833ECD6000C49A4 /* Name.swift in Sources */,
 				421BAA97283261DB00A434CB /* Array.swift in Sources */,
 				4219B60D2833EDF1000C49A4 /* Contact+CoreDataClass.swift in Sources */,

@@ -35,7 +35,13 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="dMZ-sZ-7Xk" secondAttribute="trailing" id="vrj-mO-Msp"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="LI3-95-GoM"/>
+                    <navigationItem key="navigationItem" id="LI3-95-GoM">
+                        <barButtonItem key="rightBarButtonItem" image="arrow.clockwise" catalog="system" id="5g0-wQ-XYv">
+                            <connections>
+                                <action selector="refreshButtonTapped:" destination="BYZ-38-t0r" id="cqC-yX-LXu"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="activityIndicator" destination="zZn-Zr-k8K" id="s0x-ch-ke0"/>
                         <outlet property="tableView" destination="dMZ-sZ-7Xk" id="Skc-9w-TPv"/>
@@ -95,6 +101,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="arrow.clockwise" catalog="system" width="115" height="128"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

@@ -7,6 +7,7 @@
 
 import Foundation
 import CoreData
+import UIKit
 
 class CoreDataStack {
     
@@ -63,38 +64,33 @@ class CoreDataStack {
     }()
     
     init() {
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(mainContextChanged(notification:)),
-                                               name: .NSManagedObjectContextDidSave,
-                                               object: self.mainContext)
+        let nCenter = NotificationCenter.default
+        nCenter.addObserver(self,
+                            selector: #selector(mainContextChanged(notification:)),
+                            name: .NSManagedObjectContextDidSave,
+                            object: self.mainContext)
         
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(bgContextChanged(notification:)),
-                                               name: .NSManagedObjectContextDidSave,
-                                               object: self.backgroundContext)
+        nCenter.addObserver(self,
+                            selector: #selector(bgContextChanged(notification:)),
+                            name: .NSManagedObjectContextDidSave,
+                            object: self.backgroundContext)
+        
+        nCenter.addObserver(self,
+                            selector: #selector(appWillClose(_:)),
+                            name: UIApplication.didEnterBackgroundNotification,
+                            object: nil)
+        
+        nCenter.addObserver(self,
+                            selector: #selector(appWillClose(_:)),
+                            name: UIApplication.willTerminateNotification,
+                            object: nil)
     }
     
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
     
-    
-    // MARK: Notification observers
-    
-    @objc func mainContextChanged(notification: Notification) {
-        backgroundContext.perform { [weak self] in
-            self?.backgroundContext.mergeChanges(fromContextDidSave: notification)
-        }
-    }
-    @objc func bgContextChanged(notification: Notification) {
-        mainContext.perform{ [weak self] in
-            self?.mainContext.mergeChanges(fromContextDidSave: notification)
-        }
-    }
-    
-    
     // MARK: Public funcs
-    
     func saveContext(context: NSManagedObjectContext) {
         guard context.hasChanges else { return }
         
@@ -107,5 +103,23 @@ class CoreDataStack {
             }
         }
     }
+    
+    // MARK: Notification observers
+    @objc private func mainContextChanged(notification: Notification) {
+        backgroundContext.perform { [weak self] in
+            self?.backgroundContext.mergeChanges(fromContextDidSave: notification)
+        }
+    }
+    @objc private func bgContextChanged(notification: Notification) {
+        mainContext.perform{ [weak self] in
+            self?.mainContext.mergeChanges(fromContextDidSave: notification)
+        }
+    }
+    
+    @objc private func appWillClose(_ notification: Notification) {
+        saveContext(context: mainContext)
+        saveContext(context: backgroundContext)
+    }
+    
 }
 
