@@ -30,7 +30,6 @@ class ContactsListVC: UIViewController, Storyboardable {
         
         setupTableView()
         bindViewModel()
-        setupCompletions()
         viewModel?.start()
     }
     
@@ -52,7 +51,7 @@ class ContactsListVC: UIViewController, Storyboardable {
     
     private func bindViewModel() {
         viewModel?.isLoadingPublisher
-            .subscribe(on: DispatchQueue.main)
+            .receive(on: DispatchQueue.main)
             .sink(receiveValue: { [weak self] isLoading in
                 if isLoading {
                     self?.activityIndicator.startAnimating()
@@ -63,22 +62,18 @@ class ContactsListVC: UIViewController, Storyboardable {
             .store(in: &subscriptions)
 
         viewModel?.errorPublisher
-            .subscribe(on: DispatchQueue.main)
+            .receive(on: DispatchQueue.main)
             .sink(receiveValue: { [weak self] error in
                 AlertManager.showAlert(with: error, to: self)
             })
             .store(in: &subscriptions)
     
         viewModel?.snapshotPublisher
-            .subscribe(on: DispatchQueue.main)
+            .receive(on: DispatchQueue.main)
             .sink(receiveValue: { [weak self] snapshot in
                 self?.diffableDataSource.apply(snapshot)
             })
             .store(in: &subscriptions)
-    }
-    
-    private func setupCompletions() {
-
     }
     
     private func setupDataSource() -> ContactsListDiffableDataSource {
